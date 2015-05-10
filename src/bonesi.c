@@ -736,6 +736,9 @@ void acknowledge(libnet_t *libnetHandle, pcap_t* pcapHandle) {
     //printf("achnowledge\n");
     //static size_t x = 0;
     sniffedPacket = pcap_next(pcapHandle, &header);
+    if (!sniffedPacket) {
+        return;
+    }
     ip = (struct iphdr*) (sniffedPacket + sizeof(struct ether_header));
     u_int32_t sIp = ip->daddr; //IP we want to send to
     tcp = (struct tcphdr*) (sniffedPacket + sizeof(struct ether_header) + sizeof(struct iphdr));
